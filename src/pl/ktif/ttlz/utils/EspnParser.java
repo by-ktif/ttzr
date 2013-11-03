@@ -54,11 +54,11 @@ public class EspnParser {
 	private Team getTeam(JsonNode compets, int i) {
 		JsonNode homeTeamNode = compets.get(i).get("team");
 		String homeTeamEspnId = homeTeamNode.get("uid").textValue();
-		Team team;
-		if ((team = gameDao.findByEspnId(homeTeamEspnId)) == null) {
+		Team team = null;
+		/*if ((team = gameDao.findByEspnId(homeTeamEspnId)) == null) {
 			String homeTeamName = homeTeamNode.get("name") != null ? homeTeamNode.get("name").asText() : homeTeamNode.get("nickname").asText();
 			team = gameDao.create(new Team(homeTeamEspnId, homeTeamName));
-		}
+		}*/
 		return team;
 	}
 }
