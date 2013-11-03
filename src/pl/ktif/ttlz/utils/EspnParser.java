@@ -1,6 +1,5 @@
 package pl.ktif.ttlz.utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 
@@ -8,11 +7,13 @@ import pl.ktif.ttlz.model.Game;
 import pl.ktif.ttlz.model.SportCategories;
 import pl.ktif.ttlz.model.Team;
 import pl.ktif.ttlz.model.Tournament;
+import java.net.URL;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Deprecated
 public class EspnParser {
 	public static void main(String[] args) throws JsonParseException, IOException {
 		new EspnParser().parse();
