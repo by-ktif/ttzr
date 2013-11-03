@@ -16,5 +16,8 @@
 		<mapping class="pl.ktif.ttlz.model.Tournament"></mapping>
 		<mapping class="pl.ktif.ttlz.model.Game"></mapping>
 		<mapping class="pl.ktif.ttlz.model.Team"></mapping>
+		<mapping class="pl.ktif.ttlz.model.League"></mapping>
+		<mapping class="pl.ktif.ttlz.model.User"></mapping>
+		<mapping class="pl.ktif.ttlz.model.Bet"></mapping>
 	</session-factory>
 </hibernate-configuration>

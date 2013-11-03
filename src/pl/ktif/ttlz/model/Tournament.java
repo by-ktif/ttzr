@@ -2,13 +2,17 @@ package pl.ktif.ttlz.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "z_leagues")
+@Table(name = "z_tournaments")
 public class Tournament {
+
 	@Id
 	@GeneratedValue
 	private int id;
@@ -16,12 +20,13 @@ public class Tournament {
 	@Column(name = "name")
 	private String name;
 	
-	/*private String espnId;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="league_id")
+	private League league;
+
+	@Column(name = "point_system_code")
+	private byte pointSystem;
 	
-	private String descripton;
-	
-	private SportCategories sportCategory;
-*/
 	public int getId() {
 		return id;
 	}
@@ -38,28 +43,20 @@ public class Tournament {
 		this.name = name;
 	}
 
-	/*public String getEspnId() {
-		return espnId;
+	public League getLeague() {
+		return league;
 	}
 
-	public void setEspnId(String espnId) {
-		this.espnId = espnId;
+	public void setLeague(League league) {
+		this.league = league;
 	}
 
-	public String getDescripton() {
-		return descripton;
+	public byte getPointSystem() {
+		return pointSystem;
 	}
 
-	public void setDescripton(String descripton) {
-		this.descripton = descripton;
+	public void setPointSystem(byte pointSystem) {
+		this.pointSystem = pointSystem;
 	}
 
-	public SportCategories getSportCategory() {
-		return sportCategory;
-	}
-
-	public void setSportCategory(SportCategories sportCategory) {
-		this.sportCategory = sportCategory;
-	}
-*/
 }

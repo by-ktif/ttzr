@@ -20,7 +20,7 @@ public class Game {
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="league_id")
-	private Tournament tournament;
+	private League league;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="teamA_id")
@@ -87,11 +87,11 @@ public class Game {
 		this.teamB = teamB;
 	}
 
-	public Tournament getTournament() {
-		return tournament;
+	public League getLeague() {
+		return league;
 	}
 
-	public void setTournament(Tournament tournament) {
-		this.tournament = tournament;
+	public void setLeague(League league) {
+		this.league = league;
 	}
 }
