@@ -1,5 +1,6 @@
 package pl.ktif.ttlz.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 
@@ -7,9 +8,11 @@ import pl.ktif.ttlz.model.Game;
 import pl.ktif.ttlz.model.SportCategories;
 import pl.ktif.ttlz.model.Team;
 import pl.ktif.ttlz.model.Tournament;
+
 import java.net.URL;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,7 +22,7 @@ public class EspnParser {
 		new EspnParser().parse();
 	}
 	
-	public void parse() {
+	public void parse() throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		//URL url = new URL("http://api.espn.com/v1/sports/hockey/nhl/events?apikey=97k9afar2zg92nc4tt233sww");
 		File url = new File("/home/alexey/temp.json");
@@ -48,7 +51,7 @@ public class EspnParser {
 		}
 	}
 
-	private void getTeam(JsonNode compets, int i) {
+	private Team getTeam(JsonNode compets, int i) {
 		JsonNode homeTeamNode = compets.get(i).get("team");
 		String homeTeamEspnId = homeTeamNode.get("uid").textValue();
 		Team team;
