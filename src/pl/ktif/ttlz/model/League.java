@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "z_teams")
-public class Team {
+@Table(name = "z_leagues")
+public class League {
 	@Id
 	@GeneratedValue
 	private int id;

@@ -7,14 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "z_teams")
-public class Team {
+@Table(name = "z_users")
+public class User {
+
 	@Id
 	@GeneratedValue
 	private int id;
-	
+
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "password")
+	private String password;
 	
 	public int getId() {
 		return id;
@@ -30,6 +34,14 @@ public class Team {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
