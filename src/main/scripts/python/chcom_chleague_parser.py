@@ -29,27 +29,27 @@ class Game:
 def convertDate(stringDate):
 	arrayDate = stringDate.split(' ');
 	sf = "09"
-	if arrayDate[1].encode('cp1251') == u'ÿíâàðÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'ÑÐ½Ð²Ð°Ñ€Ñ'.encode('cp1251'):
 		sf = "01"
-	if arrayDate[1].encode('cp1251') == u'ôåâðàëÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð´ÐµÐºÐ°Ð±Ñ€Ñ'.encode('cp1251'):
 		sf = "02"
-	if arrayDate[1].encode('cp1251') == u'ìàðòà'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð¼Ð°Ñ€Ñ‚Ð°'.encode('cp1251'):
 		sf = "03"
-	if arrayDate[1].encode('cp1251') == u'àïðåëÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð°Ð¿Ñ€ÐµÐ»Ñ'.encode('cp1251'):
 		sf = "04"
-	if arrayDate[1].encode('cp1251') == u'ìàÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð¼Ð°Ñ'.encode('cp1251'):
 		sf = "05"
-	if arrayDate[1].encode('cp1251') == u'èþíÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð¸ÑŽÐ½Ñ'.encode('cp1251'):
 		sf = "06"
-	if arrayDate[1].encode('cp1251') == u'èþëÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð¸ÑŽÐ»Ñ'.encode('cp1251'):
 		sf = "07"
-	if arrayDate[1].encode('cp1251') == u'àâãóñòà'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð°Ð²Ð³ÑƒÑÑ‚Ð°'.encode('cp1251'):
 		sf = "08"
-	if arrayDate[1].encode('cp1251') == u'îêòÿáðÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð¾ÐºÑ‚ÑÐ±Ñ€Ñ'.encode('cp1251'):
 		sf = "10"
-	if arrayDate[1].encode('cp1251') == u'íîÿáðÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð½Ð¾ÑÐ±Ñ€Ñ'.encode('cp1251'):
 		sf = "11"
-	if arrayDate[1].encode('cp1251') == u'äåêàáðÿ'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'Ð´ÐµÐºÐ°Ð±Ñ€Ñ'.encode('cp1251'):
 		sf = "12"
 	if len(arrayDate[0]) == 1:
 		arrayDate[0] = '0'+ arrayDate[0]
@@ -75,6 +75,7 @@ def getOpponenId(opponentName):
 	if hash in opponentDict:
 		return opponentDict[hash]
 	else:
+		print "INSERT INTO ttlz.z_teams SET name=%s" % (opponentName)
 		curr.execute('INSERT INTO ttlz.z_teams SET name=%s', (opponentName))
 		curr.execute('SELECT id FROM ttlz.z_teams WHERE name=%s', (opponentName))
 		newId = curr.fetchone()[0]
@@ -111,11 +112,11 @@ for game in list:
 	row = curr.fetchone()
 	if row:
 		if row[1] == -1 and game.scoreA > -1:
+			print "UPDATE ttlz.z_games SET scoreA=%s, scoreB=%s WHERE id=%s" % (game.scoreA, game.scoreB, row[0])
 			curr.execute('UPDATE ttlz.z_games SET scoreA=%s, scoreB=%s WHERE id=%s', (game.scoreA, game.scoreB, row[0]))
 	else:
+		print "INSERT INTO ttlz.z_games SET league_id=%s, starttime=%s, teamA_id=%s, teamB_id=%s, scoreA=%s, scoreB=%s" % (leagueId, game.date, game.opponentA, game.opponentB, game.scoreA, game.scoreB)
 		curr.execute('INSERT INTO ttlz.z_games SET league_id=%s, starttime=%s, teamA_id=%s, teamB_id=%s, scoreA=%s, scoreB=%s', (leagueId, game.date, game.opponentA, game.opponentB, game.scoreA, game.scoreB))
-		
-#	print "%s: %s - %s (%s:%s)" % (game.date, game.opponentA, game.opponentB, game.scoreA, game.scoreB)
 
 curr.close()
 con.close()
