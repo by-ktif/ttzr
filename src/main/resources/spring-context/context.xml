@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<context:component-scan base-package="pl.ktif.ttlz.dao"/>
+	<context:component-scan base-package="pl.ktif.ttlz.service"/>
+	
+	<jpa:repositories base-package="pl.ktif.ttlz.dao" />
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- <value>classpath:application.properties</value> -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://0.0.0.0:3306/ttlz" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+		<property name="maxActive" value="10"/>
+		<property name="maxIdle" value="10"/>
+		<property name="minIdle" value="0"/>
+		<property name="maxWait" value="-1"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="validationQuery" value="SELECT 1"/>
+	</bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>pl.ktif.ttlz.model</value>
+			</list>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="MYSQL" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean id="persistenceAnnotation" class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	
+	<!-- <bean id="planService" class="com.eucsoft.planinstant.service.PlanService" />
+	<bean id="userService" class="com.eucsoft.planinstant.service.UserService" />
+	<bean id="categoryService" class="com.eucsoft.planinstant.service.CategoryService" />
+	<bean id="locationService" class="com.eucsoft.planinstant.service.LocationService" />
+	<bean id="requestService" class="com.eucsoft.planinstant.service.RequestService" /> -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>
