@@ -4,7 +4,7 @@
 __author__ = "Alexey Elisawetski"
 __date__ = "$Date: 2013/11/02 08:19:00 $"
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import urllib
 import re
 import hashlib
@@ -13,8 +13,9 @@ import MySQLdb
 con = MySQLdb.connect('localhost', 'root', '', 'ttlz')
 con.set_character_set('utf8')
 con.autocommit(True)
-url = "http://www.championat.com/football/_ucl/765/calendar/tour/group.html"
+#url = "http://www.championat.com/football/_ucl/765/calendar/tour/group.html"
 #url = "http://www.championat.com/football/_spain/777/calendar/tour.html"
+url = "http://www.championat.com/football/_ucl/765/calendar/tour/playoff.html"
 leagueId = 1
 
 
@@ -69,15 +70,22 @@ data = curr.fetchall()
 for row in data:
 	opponentDict[getHash(row[1]).encode('utf8')]=row[0]
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 def getOpponenId(opponentName):
 	opponentName = opponentName.encode('utf8')
 	hash = getHash(opponentName)
 	if hash in opponentDict:
 		return opponentDict[hash]
 	else:
-		print "INSERT INTO ttlz.z_teams SET name=%s" % (opponentName)
-		curr.execute('INSERT INTO ttlz.z_teams SET name=%s', (opponentName))
-		curr.execute('SELECT id FROM ttlz.z_teams WHERE name=%s', (opponentName))
+		print "INSERT INTO ttlz.z_teams SET name = '%s'" % (opponentName)
+		curr.execute("INSERT INTO ttlz.z_teams SET name='" + opponentName + "'")
+		curr.execute("SELECT id FROM ttlz.z_teams WHERE name='" + opponentName + "'")
 		newId = curr.fetchone()[0]
 		opponentDict[hash] = newId
 		return newId
@@ -101,8 +109,9 @@ for line in linesTR:
 		game.date = "%s %s:00" % (date, tds[1].string.strip())
 		if scoreString:
 			scores = scoreString.split(':');
-			game.scoreA = scores[0]
-			game.scoreB = scores[1]
+			if is_number(scores[0]) & is_number(scores[1]):
+				game.scoreA = scores[0]
+				game.scoreB = scores[1]
 		list.append(game)
 	else:
 		date = convertDate(tds[0].string)

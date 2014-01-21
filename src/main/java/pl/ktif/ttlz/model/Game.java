@@ -1,6 +1,7 @@
 package pl.ktif.ttlz.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +40,10 @@ public class Game {
 
 	@Column(name = "starttime")
 	private Date startTime;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "game_id")
+	private List<Bet> bets;
 
 	public int getId() {
 		return id;
@@ -93,5 +99,13 @@ public class Game {
 
 	public void setLeague(League league) {
 		this.league = league;
+	}
+
+	public List<Bet> getBets() {
+		return bets;
+	}
+
+	public void setBets(List<Bet> bets) {
+		this.bets = bets;
 	}
 }

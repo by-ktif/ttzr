@@ -1,6 +1,6 @@
 package pl.ktif.ttlz.service;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,10 @@ import pl.ktif.ttlz.dao.TournamentDAO;
 import pl.ktif.ttlz.model.Bet;
 import pl.ktif.ttlz.model.Game;
 import pl.ktif.ttlz.model.Tournament;
+import pl.ktif.ttlz.model.dto.BetDTO;
+import pl.ktif.ttlz.model.dto.BetGameDTO;
+import pl.ktif.ttlz.model.dto.GameDTO;
+import pl.ktif.ttlz.model.dto.TournamentDTO;
 
 @Service
 @Transactional
@@ -22,22 +26,51 @@ public class TournamentService {
 		return tournamentDao.findAll();
 	}
 
-	public String getAllTournamentsJson() {
-		List<Tournament> all = getAllTournaments();
-		String res = "";
-		Tournament tour = all.get(0);
-		for (Bet bet : tour.getBets()) {
-			Game game = bet.getGame();
-			String team1 = game.getTeamA().getName();
-			String team2 = game.getTeamB().getName();
-			Date d = game.getStartTime();
-			byte score1 = game.getScoreA();
-			byte score2 = game.getScoreB();
-			String user = bet.getUser().getName();
-			byte bet1 = bet.getBetA();
-			byte bet2 = bet.getBetB();
-			res += String.format("%s (%d:%d): %s %s - %s (%d:%d)\n", user, bet1, bet2, d.toString(), team1, team2, score1, score2);
+	public Tournament getTournament(int id) {
+		return tournamentDao.findById(id);
+	}
+
+	public TournamentDTO getTournamentDTO(int id) {
+		return toDTO(getTournament(id));
+	}
+	
+	private TournamentDTO toDTO(Tournament tournament) {
+		TournamentDTO dto = new TournamentDTO();
+		dto.setName(tournament.getName());
+		List<BetGameDTO> betGames = new ArrayList<BetGameDTO>();
+		for (Game game : tournament.getLeague().getGames()) {
+			betGames.add(toBetGameDTO(game));
 		}
-		return res;
+		dto.setBetGames(betGames);
+		return dto;
+	}
+
+	private BetGameDTO toBetGameDTO(Game game) {
+		BetGameDTO dto = new BetGameDTO();
+		dto.setGame(toGameDTO(game));
+		List<BetDTO> bets = new ArrayList<BetDTO>();
+		for (Bet bet : game.getBets()) {
+			bets.add(toBetDTO(bet));
+		}
+		dto.setBets(bets);
+		return dto;
+	}
+
+	private BetDTO toBetDTO(Bet bet) {
+		BetDTO dto = new BetDTO();
+		dto.setBetA(bet.getBetA());
+		dto.setBetB(bet.getBetB());
+		dto.setUserId(bet.getUser().getId());
+		return dto;
+	}
+
+	private GameDTO toGameDTO(Game game) {
+		GameDTO dto = new GameDTO();
+		dto.setScoreA(game.getScoreA());
+		dto.setScoreB(game.getScoreB());
+		dto.setStartTime(game.getStartTime());
+		dto.setTeamA(game.getTeamA().getName());
+		dto.setTeamB(game.getTeamB().getName());
+		return dto;
 	}
 }
