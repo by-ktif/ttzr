@@ -2,9 +2,11 @@ package pl.ktif.ttlz.model.dto;
 
 public class BetDTO {
 
+	private int id;
 	private int userId;
 	private byte betA;
 	private byte betB;
+	private byte score;
 	
 	public int getUserId() {
 		return userId;
@@ -24,5 +26,16 @@ public class BetDTO {
 	public void setBetB(byte betB) {
 		this.betB = betB;
 	}
-
+	public int getId() {
+		return id;
+	}
+	public void setBetId(int id) {
+		this.id = id;
+	}
+	public byte getScore() {
+		return score;
+	}
+	public void setScore(byte score) {
+		this.score = score;
+	}
 }

@@ -27,8 +27,8 @@ public class TtlzController {
 		String json = new Gson().toJson(userService.getTournamentUserDTOs(1));
 		String json2 = new Gson().toJson(tournamentService.getTournamentDTO(1));
 		ModelAndView model = new ModelAndView("main");
-		model.addObject("msg", json);
-		model.addObject("msg2", json2);
+		model.addObject("msgUsers", json);
+		model.addObject("msgGamesBets", json2);
  
 		return model;
 	}

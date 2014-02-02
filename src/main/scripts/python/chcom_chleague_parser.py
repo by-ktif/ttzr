@@ -32,7 +32,7 @@ def convertDate(stringDate):
 	sf = "09"
 	if arrayDate[1].encode('cp1251') == u'января'.encode('cp1251'):
 		sf = "01"
-	if arrayDate[1].encode('cp1251') == u'декабря'.encode('cp1251'):
+	if arrayDate[1].encode('cp1251') == u'февраля'.encode('cp1251'):
 		sf = "02"
 	if arrayDate[1].encode('cp1251') == u'марта'.encode('cp1251'):
 		sf = "03"

@@ -1,6 +1,5 @@
 package pl.ktif.ttlz.model.dto;
 
-import java.util.Date;
 
 public class GameDTO {
 
@@ -8,7 +7,7 @@ public class GameDTO {
 	private String teamB;
 	private byte scoreA;
 	private byte scoreB;
-	private Date startTime;
+	private String startTime;
 	
 	public String getTeamA() {
 		return teamA;
@@ -34,10 +33,10 @@ public class GameDTO {
 	public void setScoreB(byte scoreB) {
 		this.scoreB = scoreB;
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 	

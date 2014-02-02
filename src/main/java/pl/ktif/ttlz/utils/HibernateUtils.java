@@ -3,6 +3,7 @@ package pl.ktif.ttlz.utils;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+@SuppressWarnings("deprecation")
 public class HibernateUtils {
 	private static final SessionFactory sessionFactory;
 	static {
