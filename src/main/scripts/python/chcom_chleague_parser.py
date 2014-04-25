@@ -102,6 +102,8 @@ for line in linesTR:
 	tds = line.findAll("td")
 	if len(tds) > 1:
 		ahrefs = tds[2].findAll("a")
+		if len(ahrefs) < 2:
+			continue
 		scoreString = tds[3].a.b.string
 		game = Game()
 		game.opponentA = getOpponenId(ahrefs[0].string)
